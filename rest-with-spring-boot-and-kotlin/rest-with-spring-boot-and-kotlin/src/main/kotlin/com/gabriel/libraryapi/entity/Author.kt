@@ -4,12 +4,17 @@ import jakarta.persistence.*
 import java.time.LocalDate
 
 @Entity
-data class Author(
+@Table(name = "author")
+open class Author(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
-    val name: String,
+    @Column(nullable = false)
+    var name: String,
 
-    val birthDate: LocalDate
-)
+    @Column(name = "birth_date", nullable = false)
+    var birthDate: LocalDate
+)   {
+    constructor() : this(null, "", LocalDate.MIN)
+}

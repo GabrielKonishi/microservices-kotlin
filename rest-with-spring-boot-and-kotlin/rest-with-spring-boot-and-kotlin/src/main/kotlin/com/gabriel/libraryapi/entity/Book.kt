@@ -10,7 +10,7 @@ import jakarta.persistence.ManyToOne
 import java.time.LocalDate
 
 @Entity
-data class Book(
+open class Book(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,4 +23,6 @@ data class Book(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
     val author: Author
-)
+) {
+    constructor() : this(null, "", LocalDate.MIN, Author())
+}
