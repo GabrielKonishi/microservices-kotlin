@@ -11,5 +11,6 @@ class AuthorController(private val authorRepository: AuthorRepository) {
     @GetMapping
     fun getAllAuthors() : List<Author> = authorRepository.findAll()
 
+    @PostMapping("/save")
     fun  createAuthor(@RequestBody author: Author): Author = authorRepository.save(author)
 }

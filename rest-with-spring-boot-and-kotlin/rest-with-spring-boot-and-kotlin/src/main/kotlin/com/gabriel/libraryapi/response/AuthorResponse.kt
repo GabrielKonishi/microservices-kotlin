@@ -2,7 +2,7 @@ package com.gabriel.libraryapi.response
 
 import java.time.LocalDate
 
-open data class AuthorResponse(
+data class AuthorResponse(
     var id: Long,
 
     val name: String,
