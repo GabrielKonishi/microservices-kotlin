@@ -1,10 +1,10 @@
-package br.com.study
+package com.gabriel.libraryapi
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class RestApiApplicationTest {
+class MainApplicationTest {
 
 	@Test
 	fun contextLoads() {

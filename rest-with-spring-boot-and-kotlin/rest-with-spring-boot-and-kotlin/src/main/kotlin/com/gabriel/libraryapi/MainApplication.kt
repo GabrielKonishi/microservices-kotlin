@@ -1,11 +1,11 @@
-package br.com.study
+package com.gabriel.libraryapi
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class RestApiApplication
+class MainApplication
 
 fun main(args: Array<String>) {
-	runApplication<RestApiApplication>(*args)
+	runApplication<MainApplication>(*args)
 }
