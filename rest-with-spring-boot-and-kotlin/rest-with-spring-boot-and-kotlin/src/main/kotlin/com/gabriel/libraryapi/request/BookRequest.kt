@@ -1,5 +1,6 @@
 package com.gabriel.libraryapi.request
 
+import com.gabriel.libraryapi.entity.Author
 import java.time.LocalDate
 
 data class BookRequest(
@@ -7,6 +8,6 @@ data class BookRequest(
 
     val publishedDate: LocalDate,
 
-    val author: Long
+    val authorId: Long
 
 )

@@ -19,6 +19,12 @@ class AuthorController(private val authorService: AuthorService) {
         return ResponseEntity.ok(authors)
     }
 
+    @GetMapping("/{id}")
+    fun getAuthorById(@PathVariable id: Long): ResponseEntity<AuthorResponse>{
+        val author = authorService.getAuthorById(id)
+        return ResponseEntity.ok(author)
+    }
+
     @PostMapping("/save")
     fun  createAuthor(@RequestBody authorRequest: AuthorRequest): ResponseEntity<AuthorResponse>{
         val response = authorService.registerAuthor(authorRequest)
