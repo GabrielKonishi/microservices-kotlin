@@ -14,7 +14,6 @@ Simple API for managing authors and books, created for studying and improving ba
 - PostgreSQL  
 
 ## Next Steps  
-- Implement book registration and retrieval  
 - Add filtering and pagination  
 - Configure Docker and Docker Compose for database and application 
 
