@@ -4,7 +4,6 @@ import com.gabriel.libraryapi.entity.Author
 import com.gabriel.libraryapi.entity.Book
 import com.gabriel.libraryapi.exception.NotFoundException
 import com.gabriel.libraryapi.mapper.BookMapper
-import com.gabriel.libraryapi.repository.AuthorRepository
 import com.gabriel.libraryapi.repository.BookRepository
 import com.gabriel.libraryapi.request.BookRequest
 import com.gabriel.libraryapi.response.BookResponse
@@ -13,14 +12,11 @@ import org.springframework.stereotype.Service
 @Service
 class BookService(
     private val bookRepository: BookRepository,
-    private val authorRepository: AuthorRepository
+    private val authorService: AuthorService
     ) {
 
     fun create(bookRequest: BookRequest): BookResponse {
-        val author = authorRepository.findById(bookRequest.authorId)
-            .orElseThrow{
-                RuntimeException("Author Not Found with id ${bookRequest.authorId}") }
-
+        val author = authorService.findAuthorById(bookRequest.authorId)
         val saved = bookRepository.save(bindingBook(bookRequest, author))
         return BookMapper.toResponse(saved)
 
@@ -50,9 +46,7 @@ class BookService(
     }
 
     fun getBookById(id: Long): BookResponse {
-        val book = bookRepository.findById(id).orElseThrow{
-            NotFoundException("Book was not found with the specied Id: $id")
-        }
+        val book = findBookById(id)
 
         return BookResponse(
             requireNotNull(book.id),
@@ -61,5 +55,16 @@ class BookService(
             book.author.name)
     }
 
+    fun deleteBookById(id: Long) {
+        val book = findBookById(id)
+        bookRepository.delete(book)
+    }
+
+    fun findBookById(id: Long): Book {
+        val book = bookRepository.findById(id).orElseThrow {
+            NotFoundException(message = "Book was not found with the specied Id: $id")
+        }
+        return book
+    }
 
 }

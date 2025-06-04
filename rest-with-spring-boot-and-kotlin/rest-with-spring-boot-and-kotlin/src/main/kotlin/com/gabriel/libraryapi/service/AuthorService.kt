@@ -1,5 +1,6 @@
 package com.gabriel.libraryapi.service
 
+import com.gabriel.libraryapi.entity.Author
 import com.gabriel.libraryapi.exception.NotFoundException
 import com.gabriel.libraryapi.mapper.AuthorMapper
 import com.gabriel.libraryapi.repository.AuthorRepository
@@ -28,13 +29,23 @@ class AuthorService(private val authorRepository: AuthorRepository) {
     }
 
     fun getAuthorById(id: Long): AuthorResponse {
-        val author = authorRepository.findById(id).orElseThrow {
-            NotFoundException("Author with id: $id was not found.")
-        }
+        val author = findAuthorById(id)
         return AuthorResponse(requireNotNull(
             author.id),
             author.name,
             author.birthDate)
+    }
+
+    fun deleteAuthorById(id: Long) {
+        val author = findAuthorById(id)
+        authorRepository.delete(author)
+    }
+
+    fun findAuthorById(id: Long): Author {
+        val author = authorRepository.findById(id).orElseThrow {
+            NotFoundException(message = "Author with id: $id was not found")
+        }
+        return author
     }
 
 
