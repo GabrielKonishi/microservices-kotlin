@@ -8,13 +8,11 @@ import java.time.LocalDate
 open class Author(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
+    val id: Long? = null,
 
     @Column(nullable = false)
     var name: String,
 
     @Column(name = "birth_date", nullable = false)
-    var birthDate: LocalDate
-)   {
-    constructor() : this(null, "", LocalDate.MIN)
-}
+    var birthDate: LocalDate)   {
+    constructor() : this(null, "", LocalDate.MIN) }

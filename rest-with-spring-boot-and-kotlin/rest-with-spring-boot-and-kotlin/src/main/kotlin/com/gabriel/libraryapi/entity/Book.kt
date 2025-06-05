@@ -20,14 +20,14 @@ open class Book(
     var id: Long? = null,
 
     @Column(name = "title")
-    val title: String,
+    var title: String,
 
     @Column(name = "published_date")
-    val publishedDate: LocalDate,
+    var publishedDate: LocalDate,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
-    val author: Author
+    var author: Author
 ) {
     constructor() : this(null, "", LocalDate.MIN, Author())
 }

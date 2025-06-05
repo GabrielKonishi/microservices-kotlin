@@ -34,7 +34,7 @@ class ExceptionHandlerAdvice {
         val response = ErrorResponse(
             status = HttpStatus.BAD_REQUEST.value(),
             error = HttpStatus.BAD_REQUEST.reasonPhrase,
-            errorMessage = exception.message.orEmpty(),
+            errorMessage = exception.message,
             path = request.requestURI
         )
 

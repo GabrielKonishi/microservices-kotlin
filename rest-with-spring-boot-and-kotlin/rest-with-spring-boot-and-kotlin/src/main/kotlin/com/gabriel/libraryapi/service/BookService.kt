@@ -6,6 +6,7 @@ import com.gabriel.libraryapi.exception.NotFoundException
 import com.gabriel.libraryapi.mapper.BookMapper
 import com.gabriel.libraryapi.repository.BookRepository
 import com.gabriel.libraryapi.request.BookRequest
+import com.gabriel.libraryapi.request.BookUpdateRequest
 import com.gabriel.libraryapi.response.BookResponse
 import org.springframework.stereotype.Service
 
@@ -65,6 +66,25 @@ class BookService(
             NotFoundException(message = "Book was not found with the specied Id: $id")
         }
         return book
+    }
+
+    fun updateBook(id: Long, request: BookUpdateRequest):
+    BookResponse {
+        val book = findBookById(id)
+        val author = authorService.findAuthorById(request.authorId)
+
+        book.title = request.title
+        book.publishedDate = request.publishedDate
+        book.author = author
+
+        val updated = bookRepository.save(book)
+
+        return BookResponse(
+            id = requireNotNull(updated.id),
+            title = updated.title,
+            publishedDate = updated.publishedDate,
+            authorName = updated.author.name
+        )
     }
 
 }

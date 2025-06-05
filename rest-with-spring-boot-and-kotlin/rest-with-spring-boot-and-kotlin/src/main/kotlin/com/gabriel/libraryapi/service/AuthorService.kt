@@ -5,6 +5,7 @@ import com.gabriel.libraryapi.exception.NotFoundException
 import com.gabriel.libraryapi.mapper.AuthorMapper
 import com.gabriel.libraryapi.repository.AuthorRepository
 import com.gabriel.libraryapi.request.AuthorRequest
+import com.gabriel.libraryapi.request.authorUpdateRequest
 import com.gabriel.libraryapi.response.AuthorResponse
 import org.springframework.stereotype.Service
 
@@ -46,6 +47,23 @@ class AuthorService(private val authorRepository: AuthorRepository) {
             NotFoundException(message = "Author with id: $id was not found")
         }
         return author
+    }
+
+    fun updateAuthor(id: Long, authorUpdateRequest: authorUpdateRequest):
+    AuthorResponse {
+        val author = findAuthorById(id)
+
+        author.name = authorUpdateRequest.name
+        author.birthDate = authorUpdateRequest.birthDate
+
+        val updatedAuthor = authorRepository.save(author)
+
+        return AuthorResponse (
+            id = requireNotNull(author.id),
+            name = updatedAuthor.name,
+            birthDate = updatedAuthor.birthDate
+        )
+
     }
 
 
