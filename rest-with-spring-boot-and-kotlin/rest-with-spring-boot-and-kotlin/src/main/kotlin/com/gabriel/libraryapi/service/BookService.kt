@@ -13,47 +13,25 @@ import org.springframework.stereotype.Service
 @Service
 class BookService(
     private val bookRepository: BookRepository,
-    private val authorService: AuthorService
-    ) {
+    private val authorService: AuthorService) {
 
-    fun create(bookRequest: BookRequest): BookResponse {
+    fun registerBook(bookRequest: BookRequest): BookResponse {
         val author = authorService.findAuthorById(bookRequest.authorId)
-        val saved = bookRepository.save(bindingBook(bookRequest, author))
-        return BookMapper.toResponse(saved)
+        val savedBook = bookRepository.save(bindingBook(bookRequest, author))
+        return BookMapper.toResponse(savedBook)
 
     }
 
-
-    fun bindingBook(bookRequest: BookRequest, author: Author):Book{
-         val book = Book(
-            title = bookRequest.title,
-            publishedDate = bookRequest.publishedDate,
-            author = author
-        )
-        return book
-    }
 
     fun getAllBooks(): List<BookResponse> {
         return bookRepository.findAll().map {
-            book ->
-            BookResponse(
-                id = requireNotNull(book.id),
-                title = book.title,
-                publishedDate = book.publishedDate,
-                authorName = book.author.name
-            )
+                book -> BookResponse(
+            id = requireNotNull(book.id),
+            title = book.title,
+            publishedDate = book.publishedDate,
+            authorName = book.author.name)
         }
 
-    }
-
-    fun getBookById(id: Long): BookResponse {
-        val book = findBookById(id)
-
-        return BookResponse(
-            requireNotNull(book.id),
-            book.title,
-            book.publishedDate,
-            book.author.name)
     }
 
     fun deleteBookById(id: Long) {
@@ -61,15 +39,8 @@ class BookService(
         bookRepository.delete(book)
     }
 
-    fun findBookById(id: Long): Book {
-        val book = bookRepository.findById(id).orElseThrow {
-            NotFoundException(message = "Book was not found with the specied Id: $id")
-        }
-        return book
-    }
-
     fun updateBook(id: Long, request: BookUpdateRequest):
-    BookResponse {
+            BookResponse {
         val book = findBookById(id)
         val author = authorService.findAuthorById(request.authorId)
 
@@ -85,6 +56,31 @@ class BookService(
             publishedDate = updated.publishedDate,
             authorName = updated.author.name
         )
+    }
+
+    fun getBookById(id: Long): BookResponse {
+        val book = findBookById(id)
+
+        return BookResponse(
+            requireNotNull(book.id),
+            book.title,
+            book.publishedDate,
+            book.author.name)
+    }
+
+    fun bindingBook(bookRequest: BookRequest, author: Author): Book {
+         val book = Book(
+            title = bookRequest.title,
+            publishedDate = bookRequest.publishedDate,
+            author = author)
+        return book
+    }
+
+    fun findBookById(id: Long): Book {
+        val book = bookRepository.findById(id).orElseThrow {
+            NotFoundException(message = "Book was not found with the specied Id: $id")
+        }
+        return book
     }
 
 }

@@ -8,11 +8,27 @@ import java.time.LocalDate
 open class Author(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
+    var id: Long? = null,
 
     @Column(nullable = false)
     var name: String,
 
     @Column(name = "birth_date", nullable = false)
     var birthDate: LocalDate)   {
-    constructor() : this(null, "", LocalDate.MIN) }
+    constructor() : this(null, "", LocalDate.MIN)
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Author
+
+        return id == other.id
+    }
+
+    override fun hashCode(): Int {
+        return id?.hashCode() ?: 0
+    }
+
+
+}

@@ -1,7 +1,7 @@
 package com.gabriel.libraryapi.controller
 
 import com.gabriel.libraryapi.request.AuthorRequest
-import com.gabriel.libraryapi.request.authorUpdateRequest
+import com.gabriel.libraryapi.request.AuthorUpdateRequest
 import com.gabriel.libraryapi.response.AuthorResponse
 import com.gabriel.libraryapi.service.AuthorService
 import jakarta.validation.Valid
@@ -45,7 +45,7 @@ class AuthorController(private val authorService: AuthorService) {
 
     @PutMapping("/{id}")
     fun updateAuthor(@PathVariable id: Long,
-                     @Valid @RequestBody authorUpdateRequest: authorUpdateRequest):
+                     @Valid @RequestBody authorUpdateRequest: AuthorUpdateRequest):
             ResponseEntity<AuthorResponse> {
         val updatedAuthor = authorService.updateAuthor(id, authorUpdateRequest)
         return ResponseEntity.ok(updatedAuthor)

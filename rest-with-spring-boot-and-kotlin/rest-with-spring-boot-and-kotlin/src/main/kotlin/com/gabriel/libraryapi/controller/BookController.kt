@@ -34,7 +34,7 @@ class BookController(val bookService: BookService) {
 
     @PostMapping("/save")
     fun createBook(@Valid @RequestBody bookRequest: BookRequest): ResponseEntity<BookResponse> {
-        val response = bookService.create(bookRequest)
+        val response = bookService.registerBook(bookRequest)
         return ResponseEntity.status(HttpStatus.OK).body(response)
     }
 

@@ -5,20 +5,20 @@ import com.gabriel.libraryapi.exception.NotFoundException
 import com.gabriel.libraryapi.mapper.AuthorMapper
 import com.gabriel.libraryapi.repository.AuthorRepository
 import com.gabriel.libraryapi.request.AuthorRequest
-import com.gabriel.libraryapi.request.authorUpdateRequest
+import com.gabriel.libraryapi.request.AuthorUpdateRequest
 import com.gabriel.libraryapi.response.AuthorResponse
 import org.springframework.stereotype.Service
 
 @Service
 class AuthorService(private val authorRepository: AuthorRepository) {
 
-    fun registerAuthor(authorRequest: AuthorRequest): AuthorResponse{
+    fun registerAuthor(authorRequest: AuthorRequest): AuthorResponse {
         val savedAuthor = authorRepository.save(AuthorMapper.toEntity(authorRequest))
 
         return AuthorMapper.toResponse(savedAuthor)
     }
 
-    fun getAllAuthor(): List<AuthorResponse>{
+    fun getAllAuthor(): List<AuthorResponse> {
         return authorRepository.findAll()
             .map { author ->
                 AuthorResponse(
@@ -49,7 +49,7 @@ class AuthorService(private val authorRepository: AuthorRepository) {
         return author
     }
 
-    fun updateAuthor(id: Long, authorUpdateRequest: authorUpdateRequest):
+    fun updateAuthor(id: Long, authorUpdateRequest: AuthorUpdateRequest):
     AuthorResponse {
         val author = findAuthorById(id)
 
